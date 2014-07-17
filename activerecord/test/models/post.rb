@@ -206,7 +206,7 @@ end
 
 class SpecialPostWithDefaultScope < ActiveRecord::Base
   self.table_name = 'posts'
-  default_scope { where(:id => [1, 5,6]) }
+  default_scope { where(:id => [1, 5, 6]) }
 end
 
 class PostThatLoadsCommentsInAnAfterSaveHook < ActiveRecord::Base

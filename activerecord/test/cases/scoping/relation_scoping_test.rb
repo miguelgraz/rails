@@ -304,9 +304,19 @@ class HasManyScopingTest< ActiveRecord::TestCase
     magician = BadReference.find(1)
     assert_equal [magician], michael.bad_references
   end
+
+  def test_unscoped_join
+    all_comments = Comment.all
+    comments = FirstPost.unscoped do
+      Comment.joins(:first_post)
+    end
+
+    assert_equal 'SELECT "comments".* FROM "comments" INNER JOIN "posts" ON "posts"."id" = "comments"."post_id"', comments.to_sql
+    assert_equal all_comments.count, comments.count
+  end
 end
 
-class HasAndBelongsToManyScopingTest< ActiveRecord::TestCase
+class HasAndBelongsToManyScopingTest < ActiveRecord::TestCase
   fixtures :posts, :categories, :categories_posts
 
   def setup
